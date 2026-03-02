@@ -8,4 +8,7 @@ router.post("/register",  UserController.registerUser)
 
 router.post("/login" ,UserController.loginUser)
 
+router.patch("/ban/:id", auth(UserRole.admin),UserController.banUser)
+
+
 export const UserRoutes = router;

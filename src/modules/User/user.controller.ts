@@ -2,7 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { UserService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 
-const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const result = await UserService.registerUser(req.body);
     sendResponse(res, {
@@ -11,12 +15,12 @@ const registerUser = async (req: Request, res: Response, next: NextFunction) => 
       message: "user created",
       data: result,
     });
-  } catch (err:any) {
-    next(err)
+  } catch (err: any) {
+    next(err);
   }
 };
 
-const loginUser = async (req: Request, res: Response,next: NextFunction) => {
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   // console.log("here is the user",req.user)
   try {
     const result = await UserService.loginUser(req.body);
@@ -34,11 +38,31 @@ const loginUser = async (req: Request, res: Response,next: NextFunction) => {
       data: result,
     });
   } catch (error) {
-    next(error)
+    next(error);
+  }
+};
+
+const banUser = async (req: Request, res: Response, next: NextFunction) => {
+  // console.log(req.body);
+  // console.log(req.params.id);
+  try {
+    const result = await UserService.banUser(
+      req.body,
+      req.params?.id as string,
+    );
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: "user ban  successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
 export const UserController = {
   registerUser,
   loginUser,
+  banUser,
 };

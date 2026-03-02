@@ -36,7 +36,7 @@ const auth = (...roles: UserRole[]) => {
         throw new Error("Unauthorized!");
       }
 
-      if (userData.status !== "UNBAN") {
+      if (userData.status == "BAN") {
         throw new Error("your account is suspend!!");
       }
 

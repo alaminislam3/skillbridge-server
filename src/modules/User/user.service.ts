@@ -13,7 +13,6 @@ const registerUser = async (payload: any) => {
 };
 /* here we are returning all except password (line 10)*/
 
-
 const loginUser = async (payload: any) => {
   const user = await prisma.user.findUnique({
     where: {
@@ -23,6 +22,9 @@ const loginUser = async (payload: any) => {
   // const bookingStatus = await prisma.booking.findMany()
   if (!user) {
     throw new Error("user not found.please register !");
+  }
+  if(user.status == "BAN"){
+    throw new Error ("Your account is suspended")
   }
   const isPasswordMatch = await bcrypt.compare(payload.password, user.password);
   if (!isPasswordMatch) {
@@ -41,7 +43,20 @@ const loginUser = async (payload: any) => {
   return { token, user };
 };
 
+const banUser = async (payload: any, userId: string) => {
+  const update = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      status: payload.status,
+    },
+  });
+  return update;
+};
+
 export const UserService = {
   registerUser,
   loginUser,
+  banUser,
 };
