@@ -3,7 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import { TutorService } from "./tutor.service";
 
 const createTutorProfile = async (req: Request, res: Response, next: NextFunction) => {
-  // console.log("body",req?.body)/
+  
   try {
     const result = await TutorService.createTutorProfile(req.body, req.user?.id);
     sendResponse(res, {
@@ -18,7 +18,7 @@ const createTutorProfile = async (req: Request, res: Response, next: NextFunctio
 };
 
 const getAllTutorProfile = async (req: Request, res: Response,next: NextFunction) => {
-  // console.log(req.user)
+  
   try {
     const result = await TutorService.getAllTutorProfile();
     sendResponse(res, {

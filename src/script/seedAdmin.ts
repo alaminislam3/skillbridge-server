@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma";
 import { UserRole } from "../middlewares/auth";
 
 const seedAdmin = async () => {
-  const hashPassword = await bcrypt.hash("123456", 8);
+  const hashPassword = await bcrypt.hash("12345678", 8);
   const adminData = {
     name: "admin",
     email: "admin@g.com",

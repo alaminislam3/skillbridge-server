@@ -4,7 +4,7 @@ import auth, { UserRole } from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.get("/all", auth(UserRole.admin), BookingController.getAllBooking)
+router.get("/all", auth(UserRole.student, UserRole.admin, UserRole.tutor) , BookingController.getAllBooking)
 
 router.get("/all/:id", auth(UserRole.student),BookingController.getSingleBooking)
 

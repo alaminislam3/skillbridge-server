@@ -5,7 +5,7 @@ import auth, { UserRole } from '../../middlewares/auth';
 const router = express.Router();
 
 router.get("/", /* auth(UserRole.student, UserRole.admin), */TutorController.getAllTutorProfile)
-router.get("/:id", auth(UserRole.student, UserRole.admin),TutorController.getSingleTutorProfile)
+router.get("/:id", auth(UserRole.student, UserRole.admin, UserRole.tutor),TutorController.getSingleTutorProfile)
 router.post("/createprofile", auth(UserRole.tutor),TutorController.createTutorProfile)
 router.patch("/:id", auth(UserRole.tutor),TutorController.updateTutorProfile)
 

@@ -10,13 +10,15 @@ const createReview = async (req: Request, res: Response, next: NextFunction) => 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "review   created",
+      message: "review created",
       data: result,
     });
   } catch (err) {
+    console.log(err)
     next(err)
   }
 };
 
 export const ReviewController = {
-createReview    };
+createReview   
+ };

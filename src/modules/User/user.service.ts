@@ -19,7 +19,7 @@ const loginUser = async (payload: any) => {
       email: payload.email,
     },
   });
-  // const bookingStatus = await prisma.booking.findMany()
+  
   if (!user) {
     throw new Error("user not found.please register !");
   }
@@ -55,8 +55,15 @@ const banUser = async (payload: any, userId: string) => {
   return update;
 };
 
+const getAllUser = async () => {
+  const result = await prisma.user.findMany();
+
+  return result;
+};
+
 export const UserService = {
   registerUser,
   loginUser,
   banUser,
+  getAllUser
 };

@@ -21,7 +21,7 @@ const registerUser = async (
 };
 
 const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-  // console.log("here is the user",req.user)
+  
   try {
     const result = await UserService.loginUser(req.body);
 
@@ -61,8 +61,24 @@ const banUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getAllUser = async (req: Request, res: Response,next: NextFunction) => {
+  
+  try {
+    const result = await UserService.getAllUser();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "all user retrived successfully ",
+      data: result,
+    });
+  } catch (err : any) {
+    next(err)
+  }
+};
+
 export const UserController = {
   registerUser,
   loginUser,
   banUser,
+  getAllUser
 };

@@ -20,9 +20,9 @@ const createBooking = async (req: Request, res: Response,next: NextFunction) => 
 };
 
 const getAllBooking  = async (req: Request, res: Response,next: NextFunction) => {
-  // console.log(req.user)
+  
   try {
-    const result = await BookingService.getAllBooking();
+    const result = await BookingService.getAllBooking(req.user as any);
     sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -30,13 +30,13 @@ const getAllBooking  = async (req: Request, res: Response,next: NextFunction) =>
       data: result,
     });
   } catch (err : any) {
-    next(err)
+      next(err)
   }
 };
 
 
 const getSingleBooking = async (req: Request, res: Response,next: NextFunction) => {
-  
+  // console.log(req.params.id)
   try {
     const result = await BookingService.getSingleBooking(req.params?.id as string);
     sendResponse(res, {

@@ -9,7 +9,7 @@ const createBooking = async (payload: Omit<Booking, "id"| "createdAt"| "updateed
     }
   })
   if (!userCheck){
-   throw new Error ("user isn't valid")
+   throw new Error ("user not found")
   }
 
   const tutor = await prisma.tutorProfile.findUnique({
@@ -38,8 +38,7 @@ const createBooking = async (payload: Omit<Booking, "id"| "createdAt"| "updateed
   }
 
    const duration = endTime - startTime;
-  console.log(duration); // Miliseconds
-
+ 
   const durationInHour = duration / (1000 * 60 * 60);
 
   const totalPrice = durationInHour * tutor.price;
@@ -52,11 +51,52 @@ const createBooking = async (payload: Omit<Booking, "id"| "createdAt"| "updateed
   return result;
 };
 
-const getAllBooking = async () => {
-  
-  const result = await prisma.booking.findMany();
+const getAllBooking = async (user: any) => {
 
-  
+  // ✅ STUDENT
+  if (user.role === "STUDENT") {
+    const studentResult = await prisma.booking.findMany({
+      where: {
+        studentId: user.id,
+      },
+      include: {
+        reviews: true, 
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return studentResult;
+  }
+
+  // ✅ TUTOR
+  if (user.role === "TUTOR") {
+    const tutorResult = await prisma.booking.findMany({
+      where: {
+        tutorId: user.id,
+      },
+      include: {
+        reviews: true, 
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return tutorResult;
+  }
+
+  // ✅ ADMIN / OTHER
+  const result = await prisma.booking.findMany({
+    include: {
+      reviews: true, 
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return result;
 };
 

@@ -20,7 +20,11 @@ const getSingleTutorProfile = async (paramsId: string) => {
       id: paramsId,
     },
     include: {
-      reviews: true,
+      reviews: {
+        include :{
+          studentRelation: true
+        }
+      }
     },
   });
 
